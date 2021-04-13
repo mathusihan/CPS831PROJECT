@@ -15,5 +15,8 @@
     "bugs": {
         "url": "https://github.com/mathusihan/CPS831PROJECT/issues"
     },
-    "homepage": "https://github.com/mathusihan/CPS831PROJECT#readme"
+    "homepage": "https://github.com/mathusihan/CPS831PROJECT#readme",
+    "dependencies": {
+        "mongodb": "^3.6.6"
+    }
 }
