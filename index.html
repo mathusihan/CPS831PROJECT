@@ -1,28 +1,32 @@
-<!DOCTYPE html>
 <html>
-
 <head>
-    <meta charset="UTF-8" />
-    <title>Add React in One Minute</title>
-</head>
-
-<body>
-
-    <h2>Add React in One Minute</h2>
-    <p>This page demonstrates using React with no build tooling.</p>
-    <p>React is loaded as a script tag.</p>
-
-    <!-- We will put our React component inside this div. -->
-    <div id="like_button_container"></div>
-
-    <!-- Load React. -->
-    <!-- Note: when deploying, replace "development.js" with "production.min.js". -->
-    <script src="https://unpkg.com/react@16/umd/react.development.js" crossorigin></script>
+ <! — include bootstap and jquery cdn →
+ <script src="https://unpkg.com/react@16/umd/react.development.js" crossorigin></script>
     <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js" crossorigin></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
 
     <!-- Load our React component. -->
     <script src="like_button.js"></script>
+</head>
+<body>
+<div class="container">
+ <br>
+ <div class="jumbotron">
+ <h1 class="display-4">Send Message</h1>
+ <br>
+ <input id = "name" class="form-control" placeholder="Name">
+ <br>
+ <textarea id = "message" class="form-control" placeholder="Your Message Here">
+</textarea>
+ <br>
+ <button id="send" class="btn btn-success">Send</button>
+ </div>
+ <div id="messages">
+ 
+</div>
+</div>
+<script>
 
+</script>
 </body>
-
 </html>
