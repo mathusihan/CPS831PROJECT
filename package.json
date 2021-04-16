@@ -2,7 +2,7 @@
     "name": "cps831assignment",
     "version": "1.0.0",
     "description": "Messaging application",
-    "main": "index.html",
+    "main": "CPS831 Assignment.html",
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1"
     },
@@ -17,6 +17,8 @@
     },
     "homepage": "https://github.com/mathusihan/CPS831PROJECT#readme",
     "dependencies": {
-        "mongodb": "^3.6.6"
+        "express": "^4.17.1",
+        "mongodb": "^3.6.6",
+        "socket.io": "^4.0.1"
     }
 }
