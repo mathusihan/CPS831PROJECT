@@ -57,36 +57,71 @@
     </style>
     <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js" integrity="sha512-q/dWJ3kcmjBLU4Qc47E4A9kTB4m3wuTY7vkFJDTZKjTs8jhyGQnaUrxa0Ytd0ssMZhbNua9hE+E7Qv1j+DyZwA==" crossorigin="anonymous"></script>
-
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
 </head>
 
 <body>
-    <ul id="messages"></ul>
-    <form method="POST" id="chatForm">
-        <input id="txt" autocomplete="off" autofocus="on" placeholder="type your message here..." /><button>Send</button>
-    </form>
-    <script>
-        var socket = io.connect('http://localhost:8081');
-        // submit text message without reload/refresh the page
-        $('form').submit(function(e) {
-            e.preventDefault(); // prevents page reloading
-            socket.emit('chat_message', $('#txt').val());
-            $('#txt').val('');
-            return false;
-        });
-        // append the chat text message
-        socket.on('chat_message', function(msg) {
-            $('#messages').append($('<li>').html(msg));
-        });
-        // append text if someone is online
-        socket.on('is_online', function(username) {
-            $('#messages').append($('<li>').html(username));
-        });
+    <div class="modal-content animate">
+        <div id="formContent">
+            <!-- Tabs Titles -->
 
-        socket.on('error', function(err) {
-            console.log(err);
-        });
-    </script>
+            <!-- Login Form -->
+            <form id='login'>
+                <input type="text" id="username" class="fadeIn second" name="login" placeholder="login">
+                <input type="text" id="password" class="fadeIn third" name="login" placeholder="password">
+                <input type="submit" class="fadeIn fourth" value="Log In">
+            </form>
+
+        </div>
+
+        <ul id="messages"></ul>
+        <form id='text_message' method="POST" id="chatForm">
+            <input id="txt" autocomplete="off" autofocus="on" placeholder="type your message here..." /><button>Send</button>
+        </form>
+        <script>
+            var socket = io.connect('http://localhost:8081');
+            /* $(document).ready(function() {
+                 var username = prompt('Please tell me your name');
+                 socket.emit('username', username);
+             });*/
+
+            $(window).unload(function() {
+                socket.emit('close_client');
+            });
+
+            $('#login').submit(function(e) {
+                e.preventDefault(); // prevents page reloading
+                socket.emit('login', $('#username').val(), $('#password').val());
+                $('#username').val('');
+                $('#password').val('');
+                console.log("login entered");
+                return false;
+            });
+
+            // submit text message without reload/refresh the page
+            $('#text_message').submit(function(e) {
+                e.preventDefault(); // prevents page reloading
+                socket.emit('chat_message', $('#txt').val());
+                $('#txt').val('');
+                return false;
+            });
+            // append the chat text message
+            socket.on('chat_message', function(msg) {
+                $('#messages').append($('<li>').html(msg));
+            });
+            // append text if someone is online
+            socket.on('login_successful', function(user, conversations) {
+                console.log("login has worked for ", user, conversations);
+            });
+
+            socket.on('login_fail', function() {
+                console.log("login failed");
+            });
+
+            socket.on('error', function(err) {
+                console.log(err);
+            });
+        </script>
 </body>
 
 </html>
