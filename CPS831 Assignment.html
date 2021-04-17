@@ -80,6 +80,8 @@
         </form>
         <script>
             var socket = io.connect('http://localhost:8081');
+            var current_convo = null;
+            var current_user = null;
             /* $(document).ready(function() {
                  var username = prompt('Please tell me your name');
                  socket.emit('username', username);
@@ -101,7 +103,8 @@
             // submit text message without reload/refresh the page
             $('#text_message').submit(function(e) {
                 e.preventDefault(); // prevents page reloading
-                socket.emit('chat_message', $('#txt').val());
+                var recievers = current_convo.usernames;
+                socket.emit('chat_message', $('#txt').val(), recievers, current_convo.id, current_user.username);
                 $('#txt').val('');
                 return false;
             });
@@ -112,6 +115,14 @@
             // append text if someone is online
             socket.on('login_successful', function(user, conversations) {
                 console.log("login has worked for ", user, conversations);
+                // for (var i = 0; i < conversations.length; i++) {
+                //     conversations[i].usernames = conversations[i].usernames.filter(function(ele) {
+                //         return ele != user.username;
+                //     });
+                // }
+                current_convo = conversations[0];
+                current_user = user;
+                console.log(current_convo);
             });
 
             socket.on('login_fail', function() {

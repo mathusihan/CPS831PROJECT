@@ -1,44 +1,185 @@
 <html>
-  <head>
-    <meta charset="utf-8"/>
-    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <title></title>
-    <link href="https://fonts.googleapis.com/css?family=Lato:400,700,900" rel="stylesheet" type="text/css"/>
-    <link href="styles.css" rel="stylesheet" type="text/css"/>
+    <link href="https://fonts.googleapis.com/css?family=Lato:400,700,900" rel="stylesheet" type="text/css" />
+    <link href="styles.css" rel="stylesheet" type="text/css" />
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-  </head>
-  <body>
+    <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js" integrity="sha512-q/dWJ3kcmjBLU4Qc47E4A9kTB4m3wuTY7vkFJDTZKjTs8jhyGQnaUrxa0Ytd0ssMZhbNua9hE+E7Qv1j+DyZwA==" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+</head>
+
+<body>
     <div class="header">
-      <div class="team-menu">CPS831 Winter 2021</div>
-      <div class="channel-menu"><span class="channel-menu_name"><span class="channel-menu_prefix">#</span>                admin</span></div>
+        <div class="team-menu">CPS831 Winter 2021</div>
+        <div class="channel-menu"><span class="channel-menu_name"><span class="channel-menu_prefix">#</span> admin</span>
+        </div>
     </div>
     <div class="main">
-      <div class="listings">
-        <div class="listings_channels">
-          <h2 class="listings_header">Channels</h2>
-          <ul class="channel_list">
-            <li class="channel active"><a class="channel_name"><span class="unread">0</span><span><span class="prefix">#</span>admin</span></a></li>
-            <li class="channel"><a class="channel_name"><span class="unread">10</span><span><span class="prefix">#</span>general</span></a></li>
-            <li class="channel"><a class="channel_name" href="aboutus.html"><span class="unread">4</span><span><span class="prefix">#</span>About Us</span></a></li>
-          </ul>
+        <div class="listings">
+            <div class="listings_channels">
+                <h2 class="listings_header">Channels</h2>
+                <ul class="channel_list" id="group_chats">
+                    <li class="channel active"><a class="channel_name group_list"><span class="unread">0</span><span><span class="prefix">#</span><span class='user_name'>admin admin1</span></span></a></li>
+                    <li class="channel"><a class="channel_name"><span class="unread">10</span><span><span class="prefix">#</span>general</span></a></li>
+                    <li class="channel"><a class="channel_name" href="aboutus.html"><span class="unread">4</span><span><span class="prefix">#</span>About Us</span></a></li>
+                </ul>
+            </div>
+            <div class="listings_direct-messages">
+                <h2 class="listings_header">Direct Messages</h2>
+                <ul class="channel_list" id="user_list">
+                    <li class="channel friend_list"><a class="channel_name"><span class="unread">20</span><span class="user_name"><span class="prefix"> </span>kryton</span></a></li>
+                </ul>
+            </div>
         </div>
-        <div class="listings_direct-messages">
-          <h2 class="listings_header">Direct Messages</h2>
-          <ul class="channel_list">
-            <li class="channel"><a class="channel_name"><span class="unread">20</span><span><span class="prefix"> </span>kryton</span></a></li>
-          </ul>
+        <div id="formContent">
+            <!-- Tabs Titles -->
+
+            <!-- Login Form -->
+            <form id='login'>
+                <input type="text" id="username" class="fadeIn second" name="login" placeholder="login">
+                <input type="text" id="password" class="fadeIn third" name="login" placeholder="password">
+                <input type="submit" class="fadeIn fourth" value="Log In">
+            </form>
+
         </div>
-      </div>
-      <div class="message-history">
-        <div class="message"><a class="message_profile-pic" href=""></a><a class="message_username" href="">Chika</a><span class="message_timestamp">1:31 AM</span><span class="message_star"></span><span class="message_content">Slack Technologies, Inc. (originally Tiny Speck) is a computer software startup founded in 2009, with personnel located in Vancouver, San Francisco and Dublin. The core team is largely drawn from the founders of Ludicorp, the company that created Flickr. Slack is the fastest company to receive a billion dollar valuation.</span></div>
-        <div class="message"><a class="message_profile-pic" href=""></a><a class="message_username" href="">Chika</a><span class="message_timestamp">1:31 AM</span><span class="message_star"></span><span class="message_content">Rather than trying to make your own, use RocketMail instead.</span></div>
-      </div>
+
+        <div class="message-history">
+            <div class="message">
+                <a class="message_profile-pic" href=""></a><a class="message_username" href="">Chika</a><span class="message_timestamp">1:31 AM</span><span class="message_star"></span><span class="message_content">Slack Technologies, Inc. (originally Tiny Speck) is a computer software startup founded in 2009, with personnel located in Vancouver, San Francisco and Dublin. The core team is largely drawn from the founders of Ludicorp, the company that created Flickr. Slack is the fastest company to receive a billion dollar valuation.</span></div>
+            <div class="message">
+                <a class="message_profile-pic" href=""></a><a class="message_username" href="">Chika</a><span class="message_timestamp">1:31 AM</span><span class="message_star"></span><span class="message_content">Rather than trying to make your own, use RocketMail instead.</span></div>
+        </div>
     </div>
     <div class="footer">
-      <div class="user-menu"><span class="user-menu_profile-pic"></span><span class="user-menu_username">Chika</span><img class="connection_icon" src="data:image/png;base64,iVBORw0KGgoAAAAN..."/><span class="connection_status">online</span></div>
-      <div class="input-box">
-        <input class="input-box_text" type="text"/>
-      </div>
+        <div class="user-menu"><span class="user-menu_profile-pic"></span><span class="user-menu_username">Chika</span><img class="connection_icon" src="data:image/png;base64,iVBORw0KGgoAAAAN..." /><span class="connection_status">online</span></div>
+        <div class="input-box">
+            <input class="input-box_text" type="text" />
+        </div>
     </div>
-  </body>
+    <script>
+        var socket = io.connect('http://localhost:8081');
+        var current_convo = null;
+        var current_user = null;
+        var group_chats = [];
+        var single_convos = [];
+        var temp_message = null;
+        /* $(document).ready(function() {
+             var username = prompt('Please tell me your name');
+             socket.emit('username', username);
+         });*/
+
+        function check_equals_array(array1, array2) {
+            for (var i = 0; i < array1.length; i++) {
+                if (array1[i] != array2[i])
+                    return false;
+            }
+            return true;
+        }
+
+        function populate_messages() {
+
+        }
+
+        $(window).unload(function() {
+            socket.emit('close_client');
+        });
+
+
+        $('#login').submit(function(e) {
+            e.preventDefault(); // prevents page reloading
+            socket.emit('login', $('#username').val(), $('#password').val());
+            $('#username').val('');
+            $('#password').val('');
+            console.log("login entered");
+            return false;
+        });
+
+
+
+        // submit text message without reload/refresh the page
+        $('#text_message').submit(function(e) {
+            e.preventDefault(); // prevents page reloading
+            var recievers = current_convo.usernames;
+            temp_message = current_convo
+            socket.emit('chat_message', $('#txt').val(), recievers, current_convo.id, current_user.username);
+            $('#txt').val('');
+            return false;
+        });
+        // append the chat text message
+        socket.on('chat_message', function(msg, msg_obj, recievers) {
+            $('#messages').append($('<li>').html(msg));
+            // if (recievers.length > 2) {
+            //     for (var i = 0; i < group_chats.length; i++) {
+            //         if (check_equals_array(group_chats[i].usernames, recievers))
+            //             group_chats[i].messages.push(msg_obj);
+            //     }
+            // } else {
+            //     for (var i = 0; i < single_convos.length; i++) {
+            //         if (check_equals_array(single_convos[i].usernames, recievers))
+            //             single_convos[i].messages.push(msg_obj);
+            //     }
+            // }
+
+            // console.log(group_chats, single_convos);
+        });
+        // append text if someone is online
+        socket.on('login_successful', function(user, conversations) {
+            console.log("login has worked for ", user, conversations);
+            for (var i = 0; i < conversations.length; i++) {
+                if (conversations[i].usernames.length == 2) {
+                    single_convos.push(conversations[i]);
+                } else if (conversations[i].usernames.length > 2) {
+                    group_chats.push(conversations[i]);
+                }
+            }
+            conversation_list = conversations;
+            current_user = user;
+            for (var i = 0; i < current_user.friends.length; i++) {
+                $('#user_list').append($('<li>').html('<li class="channel friend_list"><a class="channel_name"><span class="unread">20</span><span class="user_name"><span class="prefix"> </span>' + current_user.friends[i] + '</span></a></li>'));
+            }
+
+            for (var i = 0; i < group_chats.length; i++) {
+                $('#group_chats').append($('<li>').html('<li class="channel group_list"><a class="channel_name"><span class="unread">20</span><span class="user_name"><span class="prefix"> </span>' + group_chats[i].usernames + '</span></a></li>'));
+            }
+
+            $(".group_list").click(function(element) {
+                var usernames = $(this).find('.user_name').text().trim().split(',');
+                for (var i = 0; i < group_chats.length; i++) {
+                    if (check_equals_array(group_chats[i].usernames, usernames)) {
+                        current_convo = group_chats[i];
+                    }
+                }
+                console.log(current_convo);
+            });;
+
+            $(".friend_list").click(function(element) {
+                var username = $(this).find('.user_name').text().trim();
+                for (var i = 0; i < single_convos.length; i++) {
+                    if (single_convos[i].usernames.includes(username)) {
+                        current_convo = single_convos[i];
+                    }
+
+                }
+                console.log(current_convo);
+            });;
+
+        });
+
+
+
+        socket.on('login_fail', function() {
+            console.log("login failed");
+        });
+
+        socket.on('error', function(err) {
+            console.log(err);
+        });
+    </script>
+
+</body>
+
 </html>

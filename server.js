@@ -3,11 +3,12 @@ const app = express();
 const http = require('http');
 const server = http.createServer(app);
 const io = require('socket.io')(server);
-const { MongoClient } = require('mongodb');
+const { MongoClient, Timestamp } = require('mongodb');
 const uri = "mongodb+srv://Mathusihan:CPS831@cluster0.tnbgf.mongodb.net/CPS831ASSIGNMENT?retryWrites=true&w=majority";
 const client = new MongoClient(uri);
 var currentUser;
 var conversations = [];
+var allUsers = [];
 
 class User {
 
@@ -29,6 +30,14 @@ class Conversation {
         this.messages.sort(function(a, b) { return b.timestamp - a.timestamp }); // Sort newest first
     }
 
+}
+
+class Message {
+    constructor(sender, content) {
+        this.sender = sender;
+        this.content = content;
+        this.timestamp = Date.now();
+    }
 }
 
 class ReturnObj {
@@ -79,20 +88,34 @@ app.get('/', (req, res) => {
 io.on('connection', (socket) => {
     console.log('a user connected');
     socket.on('login', function(username, password) {
+        allUsers.push({ username: username, socketID: socket.id });
         (async function() {
             var returnobj = null;
             returnobj = await getUser(username, password);
             if (returnobj != null && returnobj != undefined) {
-                io.emit('login_successful', returnobj.currentUser, returnobj.conversation);
+                io.to(socket.id).emit('login_successful', returnobj.currentUser, returnobj.conversation);
             } else
-                io.emit('login_fail');
+                io.to(socket.id).emit('login_fail');
         })();
 
     });
 
 
-    socket.on('chat_message', function(message) {
-        io.emit('chat_message', '<strong>' + "socket.username" + '</strong>: ' + message);
+    socket.on('chat_message', function(message, recievers, convoID, sender) {
+        var message_object = new Message(sender, message);
+        var MessageList = client.db("CPS831ASSIGNMENT").collection("MessageList");
+        // (async function() {
+        //     var query = { id: convoID };
+        //     var update_document = { $push: { "messages": message_object } };
+        //     var update = await MessageList.updateOne(query, update_document);
+        // })();
+        for (var i = 0; i < allUsers.length; i++) {
+            for (var j = 0; j < recievers.length; j++) {
+                if (allUsers[i].username == recievers[j])
+                    io.to(allUsers[i].socketID).emit('chat_message', '<strong>' + sender + '</strong>: ' + message, recievers);
+            }
+        }
+
     });
 
     socket.on('close_client', function() {
