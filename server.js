@@ -104,18 +104,43 @@ io.on('connection', (socket) => {
     socket.on('chat_message', function(message, recievers, convoID, sender) {
         var message_object = new Message(sender, message);
         var MessageList = client.db("CPS831ASSIGNMENT").collection("MessageList");
-        // (async function() {
-        //     var query = { id: convoID };
-        //     var update_document = { $push: { "messages": message_object } };
-        //     var update = await MessageList.updateOne(query, update_document);
-        // })();
+        (async function() {
+            var query = { id: convoID };
+            var update_document = { $push: { "messages": message_object } };
+            var update = await MessageList.updateOne(query, update_document);
+        })();
         for (var i = 0; i < allUsers.length; i++) {
             for (var j = 0; j < recievers.length; j++) {
                 if (allUsers[i].username == recievers[j])
-                    io.to(allUsers[i].socketID).emit('chat_message', '<strong>' + sender + '</strong>: ' + message, recievers);
+                    io.to(allUsers[i].socketID).emit('chat_message', '<strong>' + sender + '</strong>: ' + message, message_object, recievers);
             }
         }
 
+    });
+
+    socket.on('send_friend_request', function(sender, reciever) {
+        var UserList = client.db("CPS831ASSIGNMENT").collection("UserList");
+        (async function() {
+            var query = { username: reciever };
+            var update_document = { $push: { "pendingFriends": sender } };
+            var update = await UserList.updateOne(query, update_document);
+        })();
+    });
+
+    socket.on('accept_friend_request', function(sender, reciever) {
+        var UserList = client.db("CPS831ASSIGNMENT").collection("UserList");
+        var MessageList = client.db("CPS831ASSIGNMENT").collection("MessageList");
+        (async function() {
+            var query = { username: reciever };
+            var newConvo = new Conversation([sender, reciever], [])
+            var update_document = { $pull: { "pendingFriends": sender } };
+            var update = await UserList.updateOne(query, update_document);
+            MessageList.insertOne(newConvo, function(err, res) {
+                if (err) throw err;
+                console.log("1 document inserted");
+                client.close();
+            });
+        })();
     });
 
     socket.on('close_client', function() {
