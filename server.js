@@ -125,22 +125,50 @@ io.on('connection', (socket) => {
             var update_document = { $push: { "pendingFriends": sender } };
             var update = await UserList.updateOne(query, update_document);
         })();
+        for (var i = 0; i < allUsers.length; i++) {
+            if (allUsers[i].username == reciever)
+                io.to(allUsers[i].socketID).emit('sent_request', sender);
+        }
+
     });
 
     socket.on('accept_friend_request', function(sender, reciever) {
         var UserList = client.db("CPS831ASSIGNMENT").collection("UserList");
         var MessageList = client.db("CPS831ASSIGNMENT").collection("MessageList");
+        var newConvo = new Conversation([sender, reciever], [])
+            (async function() {
+                var query = { username: reciever };
+                var update_document = { $pull: { "pendingFriends": sender } };
+                var update = await UserList.updateOne(query, update_document);
+                MessageList.insertOne(newConvo, function(err, res) {
+                    if (err) throw err;
+                    console.log("1 document inserted");
+                    client.close();
+                });
+            })();
+        io.to(socket.id).emit('accepted_request', sender, newConvo);
+    });
+
+    socket.on('delete_friend_request', function(sender, reciever) {
+        var UserList = client.db("CPS831ASSIGNMENT").collection("UserList");
         (async function() {
             var query = { username: reciever };
-            var newConvo = new Conversation([sender, reciever], [])
             var update_document = { $pull: { "pendingFriends": sender } };
-            var update = await UserList.updateOne(query, update_document);
-            MessageList.insertOne(newConvo, function(err, res) {
+        })();
+        io.to(socket.id).emit('deleted_pending_friend', sender);
+    });
+
+    socket.on('create_user', function(username, password) {
+        var UserList = client.db("CPS831ASSIGNMENT").collection("UserList");
+        var newUser = new User(username, password, "", [], []);
+        (async function() {
+            UserList.insertOne(newUser, function(err, res) {
                 if (err) throw err;
                 console.log("1 document inserted");
                 client.close();
             });
         })();
+        io.to(socket.id).emit('login_successful', newUser, []);
     });
 
     socket.on('close_client', function() {
