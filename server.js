@@ -27,7 +27,7 @@ class Conversation {
     constructor(usernames, messages) {
         this.usernames = usernames;
         this.messages = messages;
-        this.messages.sort(function(a, b) { return b.timestamp - a.timestamp }); // Sort newest first
+        this.messages.sort(function(a, b) { return a.timestamp - b.timestamp }); // Sort newest first
     }
 
 }
@@ -101,11 +101,11 @@ io.on('connection', (socket) => {
     });
 
 
-    socket.on('chat_message', function(message, recievers, convoID, sender) {
+    socket.on('chat_message1', function(message, recievers, convoID, sender) {
         var message_object = new Message(sender, message);
         var MessageList = client.db("CPS831ASSIGNMENT").collection("MessageList");
         (async function() {
-            var query = { id: convoID };
+            var query = { usernames: recievers };
             var update_document = { $push: { "messages": message_object } };
             var update = await MessageList.updateOne(query, update_document);
         })();
@@ -143,7 +143,6 @@ io.on('connection', (socket) => {
                 MessageList.insertOne(newConvo, function(err, res) {
                     if (err) throw err;
                     console.log("1 document inserted");
-                    client.close();
                 });
             })();
         io.to(socket.id).emit('accepted_request', sender, newConvo);
@@ -160,15 +159,32 @@ io.on('connection', (socket) => {
 
     socket.on('create_user', function(username, password) {
         var UserList = client.db("CPS831ASSIGNMENT").collection("UserList");
-        var newUser = new User(username, password, "", [], []);
+        var newUser = new User(username, "", password, [], []);
         (async function() {
             UserList.insertOne(newUser, function(err, res) {
                 if (err) throw err;
                 console.log("1 document inserted");
-                client.close();
             });
         })();
         io.to(socket.id).emit('login_successful', newUser, []);
+    });
+
+    socket.on('create_group_chat', function(usernames) {
+        var newConvo = new Conversation(usernames, []);
+        var MessageList = client.db("CPS831ASSIGNMENT").collection("MessageList");
+        console.log('fired');
+        (async function() {
+            MessageList.insertOne(newConvo, function(err, res) {
+                if (err) throw err;
+                console.log("1 document inserted");
+            });
+        })();
+        for (var i = 0; i < allUsers.length; i++) {
+            for (var j = 0; j < usernames.length; j++) {
+                if (allUsers[i].username == usernames[j])
+                    io.to(allUsers[i].socketID).emit('group_chat_created', usernames, newConvo);
+            }
+        }
     });
 
     socket.on('close_client', function() {

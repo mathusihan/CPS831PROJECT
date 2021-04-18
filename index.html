@@ -16,6 +16,32 @@
 <body>
     <div class="header">
         <div class="team-menu">CPS831 Winter 2021</div>
+        <li class="channel"> <button id="myBtn">Add Friend</button> <button style="margin-left:10px " id="grpBtn">Group chat</button>
+            <!-- The Modal -->
+            <div id="myModal" class="modal">
+
+                <!-- Modal content -->
+                <div class="modal-content" style="margin-left: 20px">
+                    <span class="close">&times;</span>
+                    <form id="friend_request_form">
+                        <input type="text" id="add_friend_text">
+                    </form>
+                </div>
+            </div>
+
+
+            <div id="grpModal" class="modal">
+
+                <!-- Modal content -->
+                <div class="modal-content" style="margin-left: 20px">
+                    <span class="close" id="grp_modal_close">&times;</span>
+                    <form id="group_chat_create_form">
+                        <input type="text" id="group_chat_input">
+                    </form>
+                </div>
+            </div>
+        </li>
+
         <div class="channel-menu"><span class="channel-menu_name"><span class="channel-menu_prefix">#</span> admin</span>
         </div>
     </div>
@@ -24,79 +50,53 @@
             <div class="listings_channels">
                 <h2 class="listings_header">Group Chats</h2>
                 <ul class="channel_list" id="group_chats">
-                    <li class="channel">    <button id="myBtn">Add Friend</button>
-                        <!-- The Modal -->
-                        <div id="myModal" class="modal">
-                        
-                            <!-- Modal content -->
-                            <div class="modal-content">
-                              <span class="close">&times;</span>
-                              <input type="text">
-                            </div></li>
-                            <hr>
-                    <li class="channel active"><a class="channel_name group_list"><span class="unread">0</span><span><span class="prefix">#</span><span class='user_name'>admin admin1</span></span></a></li>
-                    <li class="channel"><a class="channel_name"><span class="unread">10</span><span><span class="prefix">#</span>general</span></a></li>
                     <li class="channel"><a class="channel_name" href="aboutus.html"><span class="unread">4</span><span><span class="prefix">#</span>About Us</span></a></li>
                 </ul>
-                
+
             </div>
-    
-    
-    
+
+
+
             <div class="listings_direct-messages">
                 <h2 class="listings_header">Direct Messages</h2>
                 <ul class="channel_list" id="user_list">
-                    <li class="channel friend_list"><a class="channel_name"><span class="unread">20</span><span class="user_name"><span class="prefix"> </span>kryton</span></a></li>
+
                 </ul>
             </div>
             <div class="listings_direct-messages">
                 <h2 class="listings_header pending_friend_list">Pending Friends</h2>
                 <ul class="channel_list" id="pending_friends">
                 </ul>
+
             </div>
-            <div class="listings_direct-messages">
-               <div id="fb">
-  <div id="fb-top">
-    <p><b>Friend Requests</b></p>
-  </div>
-  <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/12/User_icon_2.svg/1024px-User_icon_2.svg.png" height="100" width="100" alt="Image of woman">
-  <p id="info"><b>Mark Tom</b> <br> <span>14 mutual friends</p>
-  <div id="button-block">
-    <div id="confirm">Confirm</div>
-    <div id="delete">Delete Request</div>
-  </div>
-</div>
-            </div>
+
         </div>
 
         <button class="open-button" onclick="openForm()">Login</button>
 
-<div class="form-popup" id="myForm">
-  <form action="/action_page.php" class="form-container">
-    <h1>Login</h1>
+        <div class="form-popup" id="myForm">
+            <form class="form-container" id="login">
+                <h1>Login</h1>
 
-    <label for="email"><b>Email</b></label>
-    <input type="text" placeholder="Enter Email" name="email" required>
+                <label for="email"><b>Username</b></label>
+                <input type="text" placeholder="Enter Username" name="email" id="username" required>
 
-    <label for="psw"><b>Password</b></label>
-    <input type="password" placeholder="Enter Password" name="psw" required>
+                <label for="psw"><b>Password</b></label>
+                <input type="password" placeholder="Enter Password" name="psw" id="password" required>
 
-    <button type="submit" class="btn">Login</button>
-    <button type="button" class="btn cancel" onclick="closeForm()">Close</button>
-    <button type="button" class="btn" onclick="">Create User</button>
-  </form>
-</div>
-       
+                <button type="submit" class="btn">Login</button>
+                <button type="button" class="btn cancel" onclick="closeForm()">Close</button>
+                <button type="button" class="btn" onclick="createUser()">Create User</button>
+            </form>
+        </div>
+
 
         <div class="message-history">
-            <div class="message">
-                <a class="message_profile-pic" href=""></a><a class="message_username" href="">Chika</a><span class="message_timestamp">1:31 AM</span><span class="message_star"></span><span class="message_content">Slack Technologies, Inc. (originally Tiny Speck) is a computer software startup founded in 2009, with personnel located in Vancouver, San Francisco and Dublin. The core team is largely drawn from the founders of Ludicorp, the company that created Flickr. Slack is the fastest company to receive a billion dollar valuation.</span></div>
-            <div class="message">
-                <a class="message_profile-pic" href=""></a><a class="message_username" href="">Chika</a><span class="message_timestamp">1:31 AM</span><span class="message_star"></span><span class="message_content">Rather than trying to make your own, use RocketMail instead.</span></div>
+            <div class="Message"> Welcome Please Login</div>
         </div>
     </div>
     <div class="footer">
-        <div class="user-menu"><span class="user-menu_profile-pic"></span><span class="user-menu_username">Chika</span><img class="connection_icon" src="data:image/png;base64,iVBORw0KGgoAAAAN..." /><span class="connection_status">online</span></div>
+        <div class="user-menu"><span class="user-menu_profile-pic"></span><span class="user-menu_username">User</span></div>
         <div class="input-box">
             <form id='text_message' method="POST">
                 <input id="txt" autocomplete="off" autofocus="on" placeholder="type your message here..." class="input-box_text" /><button>Send</button>
@@ -104,40 +104,54 @@
         </div>
     </div>
     <script>
+        var modal = document.getElementById("myModal");
+        var grp_modal = document.getElementById("grpModal");
+        // Get the button that opens the modal
+        var btn = document.getElementById("myBtn");
+        var grpBtn = document.getElementById("grpBtn");
+        // Get the <span> element that closes the modal
+        var span = document.getElementsByClassName("close")[0];
+        var group_span = document.getElementById('grp_modal_close');
+        // When the user clicks the button, open the modal 
+        btn.onclick = function() {
+            modal.style.display = "block";
+        }
 
-var modal = document.getElementById("myModal");
+        grpBtn.onclick = function() {
+            grp_modal.style.display = "block";
+        }
 
-// Get the button that opens the modal
-var btn = document.getElementById("myBtn");
+        // When the user clicks on <span> (x), close the modal
+        span.onclick = function() {
+            modal.style.display = "none";
+        }
+        group_span.onclick = function() {
+            grp_modal.style.display = "none";
+        }
 
-// Get the <span> element that closes the modal
-var span = document.getElementsByClassName("close")[0];
-
-// When the user clicks the button, open the modal 
-btn.onclick = function() {
-  modal.style.display = "block";
-}
-
-// When the user clicks on <span> (x), close the modal
-span.onclick = function() {
-  modal.style.display = "none";
-}
-
-// When the user clicks anywhere outside of the modal, close it
-window.onclick = function(event) {
-  if (event.target == modal) {
-    modal.style.display = "none";
-  }
-}
+        // When the user clicks anywhere outside of the modal, close it
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
 
 
         function openForm() {
-  document.getElementById("myForm").style.display = "block";
-}
+            document.getElementById("myForm").style.display = "block";
+        }
 
-function closeForm() {
-  document.getElementById("myForm").style.display = "none";
-}
+        function closeForm() {
+            document.getElementById("myForm").style.display = "none";
+        }
+
+        function createUser() {
+            socket.emit('create_user', $('#username').val(), $('#password').val());
+            closeForm();
+        }
+
+
+
         var socket = io.connect('http://localhost:8081');
         var current_convo = null;
         var current_user = null;
@@ -154,6 +168,20 @@ function closeForm() {
 
         function accept_friend_request(sender, reciever) {
             socket.emit('accept_friend_request', sender, reciever);
+        }
+
+        function create_user(username, password, email) {
+            socket.emit('create_user', username, password, email);
+        }
+
+        function create_group_chat(usernames) {
+            var count = 0;
+            for (var i = 0; i < usernames.length; i++) {
+                if (current_user.friends.includes(usernames[i]))
+                    count++;
+            }
+            if (count == usernames.length)
+                socket.emit('create_group_chat', usernames);
         }
 
         function check_equals_array(array1, array2) {
@@ -206,40 +234,86 @@ function closeForm() {
             $('#username').val('');
             $('#password').val('');
             console.log("login entered");
+            closeForm();
             return false;
         });
 
+        $('#friend_request_form').submit(function(e) {
+            e.preventDefault(); // prevents page reloading
+            alert("friend request sent");
+            socket.emit('send_friend_request', current_user.username, $('#add_friend_text').val());
+            $('#add_friend_text').val('');
+            return false;
+        });
+
+        $('#group_chat_create_form').submit(function(e) {
+            e.preventDefault(); // prevents page reloading
+            var array = $('#group_chat_input').val().split(',');
+            console.log(array);
+            // for (var i = 0; i < array.length; i++) {
+            //     array[i] = array[i].tirm();
+            // }
+            var count = 0;
+            for (var i = 0; i < array.length; i++) {
+                if (current_user.friends.includes(array[i]))
+                    count++;
+            }
+
+            if (count == array.length) {
+                array.push(current_user.username);
+                socket.emit('create_group_chat', array);
+            }
+
+            $('#group_chat_input').val('');
+            return false;
+        });
 
 
         // submit text message without reload/refresh the page
         $('#text_message').submit(function(e) {
             e.preventDefault(); // prevents page reloading
             var recievers = current_convo.usernames;
+            console.log(current_convo.id);
             temp_message = current_convo;
-            socket.emit('chat_message', $('#txt').val(), recievers, current_convo.id, current_user.username);
+            socket.emit('chat_message1', $('#txt').val(), recievers, current_convo.id, current_user.username);
             $('#txt').val('');
             return false;
         });
         // append the chat text message
         socket.on('chat_message', function(msg, msg_obj, recievers) {
-            $('#messages').append($('<li>').html(msg));
             var date = new Date(msg_obj.timestamp);
             var hours = date.getHours();
             var minutes = "0" + date.getMinutes();
             var formattedTime = hours + ':' + minutes.substr(-2);
             var element = '<div class="message"><a class="message_profile-pic" href=""></a><a class="message_username" href="">' + msg_obj.sender + '</a><span class="message_timestamp">' + formattedTime + '</span>' + '<span class="message_content">' + msg_obj.content + '</span></div>';
             $(".message-history").append(element);
-            console.log(msg_obj);
             if (recievers.length > 2) {
+
+                console.log($('.group_chats').find('.user_name'));
                 for (var i = 0; i < group_chats.length; i++) {
                     if (check_equals_array(group_chats[i].usernames, recievers))
                         group_chats[i].messages.push(msg_obj);
+                }
+
+                var accepted_array = $('.group_chats').find('.user_name');
+
+                for (var i = 0; i < accepted_array.length; i++) {
+                    if (accepted_array[i].innerText == msg_obj.sender) {
+                        $(accepted_array[i]).parent().find(".unread")[0].innerText = " &nbsp;";
+                    }
                 }
             } else {
                 for (var i = 0; i < single_convos.length; i++) {
                     if (check_equals_array(single_convos[i].usernames, recievers))
                         single_convos[i].messages.push(msg_obj);
                 }
+                var accepted_array = $('.user_list').find('.user_name');
+                for (var i = 0; i < accepted_array.length; i++) {
+                    if (accepted_array[i].innerText == msg_obj.sender) {
+                        $(accepted_array[i]).parent().find(".unread")[0].innerText = " &nbsp;";
+                    }
+                }
+
             }
 
             // console.log(group_chats, single_convos);
@@ -257,14 +331,15 @@ function closeForm() {
             conversation_list = conversations;
             current_user = user;
             for (var i = 0; i < current_user.friends.length; i++) {
-                $('#user_list').append($('<li>').html('<li class="channel friend_list"><a class="channel_name"><span class="unread">20</span><span class="user_name"><span class="prefix"> </span>' + current_user.friends[i] + '</span></a></li>'));
+                $('#user_list').append($('<li>').html('<li class="channel friend_list"><a class="channel_name"><span class="unread"></span><span class="user_name"><span class="prefix"> </span>' + current_user.friends[i] + '</span></a></li>'));
             }
 
             for (var i = 0; i < group_chats.length; i++) {
-                $('#group_chats').append($('<li>').html('<li class="channel group_list"><a class="channel_name"><span class="unread">20</span><span class="user_name"><span class="prefix"> </span>' + group_chats[i].usernames + '</span></a></li>'));
+                $('#group_chats').append($('<li>').html('<li class="channel group_list"><a class="channel_name"><span class="unread"></span><span class="user_name"><span class="prefix"> </span>' + group_chats[i].usernames + '</span></a></li>'));
             }
+
             for (var i = 0; i < current_user.pendingFriends.length; i++) {
-                $('#pending_friends').append($('<li>').html('<li class="channel pending_friend_list"><a class="channel_name"><span class="unread">20</span><span class="user_name"><span class="prefix"> </span>' + current_user.pendingFriends[i] + '</span></a></li>'));
+                $('#pending_friends').append($('<li>').html('<div class="listings_direct-messages"><div id="fb"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/12/User_icon_2.svg/1024px-User_icon_2.svg.png" height="100" width="100" alt="Image of woman"><p class="user_name"><b>' + current_user.pendingFriends[i] + '</b></p><div id="button-block"><div class="confirm">Confirm</div><div class="delete">Delete Request</div></div></div></div>'));
             }
 
             $(".group_list").click(function(element) {
@@ -274,7 +349,6 @@ function closeForm() {
                         current_convo = group_chats[i];
                     }
                 }
-                console.log(current_convo);
                 populate_messages(username, "group");
 
             });;
@@ -287,20 +361,82 @@ function closeForm() {
                     }
                 }
                 populate_messages(username, "single");
-            });;
+            });
 
+            $(".confirm").click(function(element) {
+                var username = $(this).parent().parent().find('.user_name').text().trim();
+                socket.emit('accept_friend_request', username, current_user.username);
+            });;
+            $(".delete").click(function(element) {
+                var username = $(this).parent().parent().find('.user_name').text().trim()
+                socket.emit('delete_friend_request', username, current_user.username);
+            });;
             $('.user-menu_username')[0].innerText = user.username;
-            console.log($('.user-menu_username'));
         });
 
 
+        socket.on('accepted_request', function(username, new_convo) {
+            var array = $('#pending_friends').find('.user_name');
+            single_convos.push(new_convo);
+            console.log(array);
+            for (var i = 0; i < array.length; i++) {
+                if (array[i].innerText == username)
+                    $(array[i]).closest("li")[0].remove();
+            }
+            $('#user_list').append($('<li>').html('<li class="channel friend_list"><a class="channel_name"><span class="unread"></span><span class="user_name"><span class="prefix"> </span>' + username + '</span></a></li>'));
 
-        socket.on('accepted_request', function(username) {
+            $(".friend_list").click(function(element) {
+                console.log('clicked');
+                var username = $(this).find('.user_name').text().trim();
+                current_convo = null;
+                for (var i = 0; i < single_convos.length; i++) {
+                    if (single_convos[i].usernames.includes(username)) {
+                        current_convo = single_convos[i];
+                    }
+                }
+                populate_messages(username, "single");
+            });
+        });
 
+        socket.on('sent_request', function(username) {
+            $("#pending_friends").append($('<li>').html('<div class="listings_direct-messages"><div id="fb"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/12/User_icon_2.svg/1024px-User_icon_2.svg.png" height="100" width="100" alt="Image of woman"><p class="user_name"><b>' + username + '</b></p><div id="button-block"><div class="confirm">Confirm</div><div class="delete">Delete Request</div></div></div></div>'));
+            $(".confirm").click(function(element) {
+                socket.emit('accept_friend_request', username, current_user.username);
+            });;
+            $(".delete").click(function(element) {
+                socket.emit('delete_friend_request', username, current_user.username);
+            });;
         });
 
         socket.on('login_fail', function() {
-            console.log("login failed");
+            alert("login failed");
+        });
+
+        socket.on('groupChatCreated', function(usernames, convo) {
+            var array = $('#group_chats').find('.user_name');
+            group_chats.push(convo);
+            $('#group_chats').append($('<li>').html('<li class="channel friend_list"><a class="channel_name"><span class="unread"></span><span class="user_name"><span class="prefix"> </span>' + convo.uesrnames + '</span></a></li>'));
+
+            $(".group_list").click(function(element) {
+                var usernames = $(this).find('.user_name').text().trim().split(',');
+                for (var i = 0; i < group_chats.length; i++) {
+                    if (check_equals_array(group_chats[i].usernames, usernames)) {
+                        current_convo = group_chats[i];
+                    }
+                }
+                populate_messages(username, "group");
+
+            });;
+
+        });
+
+        socket.on('deleted_pending_friend', function(username) {
+            console.log(username);
+            var array = $("#pending_friends").find(".user_name");
+            for (var i = 0; i < array.length; i++) {
+                if (array[i].innerText == username)
+                    $(array[i]).closest("li")[0].remove();
+            }
         });
 
         socket.on('error', function(err) {
