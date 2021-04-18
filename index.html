@@ -24,11 +24,25 @@
             <div class="listings_channels">
                 <h2 class="listings_header">Group Chats</h2>
                 <ul class="channel_list" id="group_chats">
+                    <li class="channel">    <button id="myBtn">Add Friend</button>
+                        <!-- The Modal -->
+                        <div id="myModal" class="modal">
+                        
+                            <!-- Modal content -->
+                            <div class="modal-content">
+                              <span class="close">&times;</span>
+                              <input type="text">
+                            </div></li>
+                            <hr>
                     <li class="channel active"><a class="channel_name group_list"><span class="unread">0</span><span><span class="prefix">#</span><span class='user_name'>admin admin1</span></span></a></li>
                     <li class="channel"><a class="channel_name"><span class="unread">10</span><span><span class="prefix">#</span>general</span></a></li>
                     <li class="channel"><a class="channel_name" href="aboutus.html"><span class="unread">4</span><span><span class="prefix">#</span>About Us</span></a></li>
                 </ul>
+                
             </div>
+    
+    
+    
             <div class="listings_direct-messages">
                 <h2 class="listings_header">Direct Messages</h2>
                 <ul class="channel_list" id="user_list">
@@ -90,6 +104,33 @@
         </div>
     </div>
     <script>
+
+var modal = document.getElementById("myModal");
+
+// Get the button that opens the modal
+var btn = document.getElementById("myBtn");
+
+// Get the <span> element that closes the modal
+var span = document.getElementsByClassName("close")[0];
+
+// When the user clicks the button, open the modal 
+btn.onclick = function() {
+  modal.style.display = "block";
+}
+
+// When the user clicks on <span> (x), close the modal
+span.onclick = function() {
+  modal.style.display = "none";
+}
+
+// When the user clicks anywhere outside of the modal, close it
+window.onclick = function(event) {
+  if (event.target == modal) {
+    modal.style.display = "none";
+  }
+}
+
+
         function openForm() {
   document.getElementById("myForm").style.display = "block";
 }
